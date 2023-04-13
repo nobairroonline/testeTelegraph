@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+
+<input type="file" name="">
+
+<script type="text/javascript">
+// definir a chave de acesso à API do Telegra.ph
+//  const ACCESS_TOKEN = 'seu_access_token_aqui';
+const ACCESS_TOKEN = 'd3b25feccb89e508a9114afb82aa421fe2a9712b963b387cc5ad71e58722';
+
+//  https://www.tuacasa.com.br/wp-content/uploads/2022/09/casa-de-praia-00.jpg
+
+// função para enviar uma imagem para o Telegra.ph e retornar a URL da imagem
+async function uploadImage(file) {
+  // criar um objeto FormData e adicionar o arquivo
+  const formData = new FormData();
+  formData.append('file', file);
+
+  // fazer a requisição para enviar a imagem para o Telegra.ph
+  /*
+  const response = await fetch(`https://telegra.ph/upload`, {
+    method: 'POST',
+    body: formData,
+  });
+  */
+  const response = await fetch(`https://cors-anywhere.herokuapp.com/https://telegra.ph/upload`, {
+  method: 'POST',
+  body: formData,
+});
+
+
+  // verificar se a resposta foi bem-sucedida
+  if (!response.ok) {
+    throw new Error(`Erro ao enviar imagem: ${response.statusText}`);
+  }
+
+  // extrair a URL da imagem da resposta JSON
+  const { src } = await response.json();
+
+  // retornar a URL da imagem
+  return `https://telegra.ph${src}`;
+}
+
+// exemplo de uso da função uploadImage
+const fileInput = document.querySelector('input[type="file"]');
+fileInput.addEventListener('change', async () => {
+  const file = fileInput.files[0];
+  const imageUrl = await uploadImage(file);
+  console.log(`A imagem foi enviada com sucesso! URL: ${imageUrl}`);
+});
+
+</script>
+</body>
+</html>
