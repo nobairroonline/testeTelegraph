@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Consumir JSON de Planilha do Google</title>
+</head>
+<body>
+    <h1>Conteúdo da Planilha Google (Formato JSON)</h1>
+    <pre id="output"></pre>
+
+    <script>
+        // URL do JSON da planilha do Google
+        // const jsonUrl = "https://docs.google.com/spreadsheets/d/e/1x2Y3zABC4.../gviz/tq?tqx=out:json";
+        const jsonUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJkLvNd6VLW-8JvWup2mKLD7XqmKkfRbxR2PD5XFki37aD2ivwyuUQEpCMCTadrUt4NpDpVPT0lfoj/gviz/tq?tqx=out:json";
+
+        // Função para obter e processar o JSON
+        fetch(jsonUrl)
+            .then(response => response.text()) // Pega a resposta como texto
+            .then(jsonData => {
+                // O Google retorna o JSON como uma string dentro de uma função chamada 'google.visualization.Query.setResponse'
+                // Precisamos remover a função e extrair o JSON
+                const json = jsonData.match(/google.visualization.Query.setResponse\((.*)\)/)[1];
+                const data = JSON.parse(json);  // Converte o JSON para um objeto JavaScript
+
+                // Aqui você pode processar o JSON conforme necessário
+                console.log(data);
+
+                // Exibir dados no formato JSON na página
+                document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error("Erro ao buscar JSON:", error);
+            });
+    </script>
+</body>
+</html>
