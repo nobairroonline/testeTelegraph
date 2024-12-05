@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Exportar CSV com Query</title>
+</head>
+<body>
+    <h1>Baixar CSV com Query</h1>
+    <button id="download">Baixar CSV</button>
+
+    <script>
+        document.getElementById('download').addEventListener('click', function() {
+            const queryUrl = "https://docs.google.com/spreadsheets/d/e/1x2Y3zABC4.../gviz/tq?tqx=out:csv&tq=select%20A%2CB%20where%20B%20%3E%202000%20order%20by%20A";
+
+            // Criar um link de download dinâmico
+            const link = document.createElement('a');
+            link.href = queryUrl;  // URL com a query
+            link.download = 'dados_filtrados.csv';  // Nome do arquivo CSV
+            link.click();  // Acionar o download
+        });
+    </script>
+</body>
+</html>
