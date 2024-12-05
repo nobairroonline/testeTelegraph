@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Consumir CSV de Planilha do Google</title>
+</head>
+<body>
+    <h1>Conteúdo da Planilha Google</h1>
+    <pre id="output"></pre>
+
+    <script>
+        // URL correta do CSV da planilha do Google
+        // const csvUrl = "https://docs.google.com/spreadsheets/d/e/1x2Y3zABC4.../gviz/tq?tqx=out:csv";
+        var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRJkLvNd6VLW-8JvWup2mKLD7XqmKkfRbxR2PD5XFki37aD2ivwyuUQEpCMCTadrUt4NpDpVPT0lfoj/pub?output=csv';
+        // Função para obter e processar o CSV
+        fetch(csvUrl)
+            .then(response => response.text()) // Pega a resposta como texto
+            .then(csvData => {
+                // Processar o CSV
+                const rows = csvData.split("\n");
+                let output = "";
+                
+                rows.forEach(row => {
+                    const columns = row.split(",");
+                    output += columns.join(" | ") + "\n"; // Aqui você pode formatar os dados como desejar
+                });
+
+                // Exibir os dados na página
+                document.getElementById("output").textContent = output;
+            })
+            .catch(error => {
+                console.error("Erro ao buscar CSV:", error);
+            });
+    </script>
+</body>
+</html>
